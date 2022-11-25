@@ -317,6 +317,13 @@ namespace create {
     firstOnData = true;
   }
 
+  void Create::keepAlive() {
+    CERR("[create:keep alive]","Triggering RTS pin false then true");
+    serial->setRTS(false);
+    usleep( 1000000 / 2 );
+    serial->setRTS(true);
+  }
+
   //void Create::reset() {
   //  serial->sendOpcode(OC_RESET);
   //  serial->reset(); // better

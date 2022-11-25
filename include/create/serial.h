@@ -95,6 +95,8 @@ namespace create {
       bool sendOpcode(const Opcode& code);
       uint64_t getNumCorruptPackets() const;
       uint64_t getTotalPackets() const;
+      void setRTS(bool enabled);
+      void setDTR(bool enabled);
   };
 }  // namespace create
 

@@ -156,6 +156,7 @@ namespace create {
        */
       void disconnect();
 
+      void keepAlive();
       /**
        * \brief Change Create mode.
        * \param mode to change Create to.

@@ -53,6 +53,13 @@ namespace create {
 
     if (port.is_open()) {
       callback = cb;
+
+      // pulse the RTS pin to wake the robot up in case it's been sleeping
+      setRTS(false);
+      usleep(100000);
+      setRTS(true);
+      usleep(100000);
+
       bool startReadSuccess = startReading();
       if (!startReadSuccess) {
         port.close();
@@ -74,6 +81,26 @@ namespace create {
       sendOpcode(OC_STOP);
       port.close();
     }
+  }
+
+  void Serial::setRTS(bool enabled)
+  {
+      int fd = port.native_handle();
+      int data = TIOCM_RTS;
+      if (!enabled)
+          ioctl(fd, TIOCMBIC, &data);       
+      else
+          ioctl(fd, TIOCMBIS, &data);
+  }
+
+  void Serial::setDTR(bool enabled)
+  {
+      int fd = port.native_handle();
+      int data = TIOCM_DTR;
+      if (!enabled)
+          ioctl(fd, TIOCMBIC, &data);        // Clears the RTS pin
+      else
+          ioctl(fd, TIOCMBIS, &data);        // Sets the RTS pin
   }
 
   bool Serial::startReading() {
