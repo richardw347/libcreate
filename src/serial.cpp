@@ -53,13 +53,6 @@ namespace create {
 
     if (port.is_open()) {
       callback = cb;
-
-      // pulse the RTS pin to wake the robot up in case it's been sleeping
-      setRTS(false);
-      usleep(100000);
-      setRTS(true);
-      usleep(100000);
-
       bool startReadSuccess = startReading();
       if (!startReadSuccess) {
         port.close();

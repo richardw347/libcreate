@@ -296,6 +296,7 @@ namespace create {
     time_t start, now;
     float maxWait = 30; // seconds
     float retryInterval = 5; //seconds
+    this->keepAlive();
     time(&start);
     while (!serial->connect(port, baud, std::bind(&Create::onData, this)) && !timeout) {
       time(&now);
@@ -318,10 +319,11 @@ namespace create {
   }
 
   void Create::keepAlive() {
-    CERR("[create:keep alive]","Triggering RTS pin false then true");
+    CERR("[create::KeepAlive] ","Triggering RTS pin false then true");
     serial->setRTS(false);
     usleep( 1000000 / 2 );
     serial->setRTS(true);
+    usleep( 1000000 / 2 );
   }
 
   //void Create::reset() {
